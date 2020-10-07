@@ -1,0 +1,91 @@
+name: SDK Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      miniapp_id:
+        description: 'Mini App Id, e.g. 1'
+        required: true
+      miniapp_version_id:
+        description: 'Mini App Version, e.g. 2'
+        required: true
+      miniapp_asset_ids:
+        description: 'Mini App Asset Ids, e.g. 3:4 '
+
+jobs:
+  build_release:
+    name: Publish aar
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_USER_NAME: ${{ secrets.GH_USER_NAME }}
+      GITHUB_USER_TOKEN: ${{ secrets.GH_USER_TOKEN }}
+      IAM_BASE_URL: ${{ secrets.IAM_BASE_URL_DEV }}
+      IAM_CLIENT_ID: ${{ secrets.IAM_CLIENT_ID }}
+      IAM_SCOPE: ${{ secrets.IAM_SCOPE }}
+      IAM_USER_EMAIL: ${{ secrets.IAM_USER_EMAIL }}
+      IAM_USER_PASSWORD: ${{ secrets.IAM_USER_PASSWORD }}
+      TERRA_BASE_URL: ${{ secrets.TERRA_BASE_URL_DEV }}
+      MINIAPP_ID: ${{ github.event.inputs.miniapp_id }}
+      MINIAPP_VERSION_ID: ${{ github.event.inputs.miniapp_version_id }}
+      MINIAPP_ASSET_IDS: ${{ github.event.inputs.miniapp_asset_ids }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Setup Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Download artifacts
+        run: |
+          python buildSystem/scripts/download_artifact.py
+
+      - name: Get current date
+        id: current-date
+        run: echo "::set-output name=now::$(date +'%Y.%m.%dT%H.%M.%S')"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.current-date.outputs.now }}
+          release_name: Release ${{ steps.current-date.outputs.now }}
+          draft: false
+          prerelease: false
+
+      - name: Upload release
+        id: upload-release
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const release_id = '${{ steps.create_release.outputs.id }}';
+            for (let file of await fs.readdirSync('./build/outputs/aar')) {
+              console.log('uploadReleaseAsset', file);
+
+              await github.repos.uploadReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: release_id,
+                name: file,
+                data: await fs.readFileSync(`./build/outputs/aar/${file}`)
+              });
+            }
+
+      - name: Publish
+        run: ./gradlew publish
