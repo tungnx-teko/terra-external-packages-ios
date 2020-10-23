@@ -93,6 +93,9 @@ jobs:
       - name: Print
         run: pwd
 
+      - name: Print
+        run: ls -R
+
       - name: Generate podspec
         run: python main/buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk.json
 
