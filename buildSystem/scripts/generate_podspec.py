@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 class Pod(object):
     def __init__(self, id, name, version, dependencies):
@@ -72,4 +73,5 @@ def save(podspec_string, pod):
     podspec_file.write(podspec_string)
     podspec_file.close()
 
-parse_json('tripi-flight.json')
+if __name__ == "__main__":
+    parse_json(sys.argv[1])
