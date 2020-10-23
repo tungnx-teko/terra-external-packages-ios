@@ -90,6 +90,9 @@ jobs:
               });
             }
 
+      - name: Print
+        run: echo pwd
+
       - name: Generate podspec
         run: python main/buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk.json
 
