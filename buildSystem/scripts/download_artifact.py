@@ -51,8 +51,8 @@ def download_asset(name, content_url):
     response = requests.get(url=content_url)
     if response.ok:
         pathlib.Path('build/outputs').mkdir(parents=True, exist_ok=True)
-
         file = open(f"build/outputs/{name}", "wb+")
+        print(pathlib.Path('build/outputs').absolute())
         file.write(response.content)
         file.close()
     else:
