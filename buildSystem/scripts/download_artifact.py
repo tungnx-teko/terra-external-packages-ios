@@ -5,7 +5,6 @@ import os
 import pathlib
 import requests
 
-
 def authenticate_iam(base_url, client_id, scope, user_name, user_password):
     url = f"{base_url}/oauth/token"
     headers = {
@@ -48,13 +47,12 @@ def fetch_artifact_info(base_url, miniapp_id, miniapp_version_id, miniapp_asset_
     else:
         response.raise_for_status()
 
-
 def download_asset(name, content_url):
     response = requests.get(url=content_url)
     if response.ok:
-        pathlib.Path('build/outputs/aar').mkdir(parents=True, exist_ok=True)
+        pathlib.Path('build/outputs').mkdir(parents=True, exist_ok=True)
 
-        file = open(f"build/outputs/aar/{name}", "wb+")
+        file = open(f"build/outputs/{name}", "wb+")
         file.write(base64.b64decode(response.content))
         file.close()
     else:

@@ -1,0 +1,18 @@
+{
+    "id": "TripiFlightKit",
+    "name": "TripiFlightKit.framework",
+    "version": "0.0.1",
+    "dependencies": [
+        {
+            "name": "Alamofire",
+            "version": "~> 4.8.0"
+        },
+        {
+            "name": "Kingfisher",
+            "version": ""
+        },
+        {
+            "name": "Kingfisher"
+        }
+    ]
+}

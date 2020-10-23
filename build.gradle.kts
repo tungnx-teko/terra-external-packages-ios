@@ -30,7 +30,7 @@ publishing {
     }
     publications.create<MavenPublication>("release") {
         afterEvaluate {
-            File("build/outputs/aar")
+            File("build/outputs")
                 .listFiles { pathname -> pathname.isFile && pathname.exists() && pathname.extension == "json" }
                 .orEmpty()
                 .forEach { properties ->
@@ -40,7 +40,7 @@ publishing {
                         groupId = "vn.teko.android.packages"
                         artifactId = artifactProperties.id
                         version = artifactProperties.version
-                        artifact("build/outputs/aar/${artifactProperties.name}")
+                        artifact("build/outputs/${artifactProperties.name}")
 
                         pom {
                             fillGenericDetails()
