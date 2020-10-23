@@ -35,6 +35,12 @@ jobs:
         with:
           path: main
 
+      - name: Checkout Specs project
+        uses: actions/checkout@v2
+        with:
+          repository: teko-vn/Specs-ios
+          path: Specs-ios
+
       - name: Setup Python 3
         uses: actions/setup-python@v2
         with:
@@ -47,7 +53,7 @@ jobs:
 
       - name: Download artifacts
         run: |
-          python buildSystem/scripts/download_artifact.py
+          python main/buildSystem/scripts/download_artifact.py
 
       - name: Get current date
         id: current-date
@@ -83,21 +89,16 @@ jobs:
                 data: await fs.readFileSync(`./build/outputs/${file}`)
               });
             }
-      - name: Checkout Specs project
-        uses: actions/checkout@v2
-        with:
-          repository: teko-vn/Specs-ios
-          path: Specs-ios
 
       - name: Generate podspec
-        run: python buildSystem/scripts/generate_podspec.py
+        run: python main/buildSystem/scripts/generate_podspec.py
 
       - name: Publish pod
         uses: EndBug/add-and-commit@v5
         with:
           message: ''
           add: '*.podspec --force'
-          cwd: './Specs-ios'
+          cwd: 'Specs-ios'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
