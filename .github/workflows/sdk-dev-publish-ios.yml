@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          path: main
 
       - name: Setup Python 3
         uses: actions/setup-python@v2
@@ -82,9 +84,10 @@ jobs:
               });
             }
       - name: Checkout Specs project
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
           repository: teko-vn/Specs-ios
+          path: Specs-ios
 
       - name: Generate podspec
         run: python buildSystem/scripts/generate_podspec.py
