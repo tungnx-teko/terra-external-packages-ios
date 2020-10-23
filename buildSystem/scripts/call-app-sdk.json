@@ -1,6 +1,6 @@
 {
-    "id": "TripiFlightKit",
-    "name": "TripiFlightKit.framework",
+    "id": "CallAppSDK",
+    "name": "CallAppSDK.framework",
     "version": "0.0.1",
     "dependencies": [
         {
@@ -10,9 +10,6 @@
         {
             "name": "Kingfisher",
             "version": ""
-        },
-        {
-            "name": "Kingfisher"
         }
     ]
 }

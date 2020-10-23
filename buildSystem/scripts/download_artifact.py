@@ -53,7 +53,7 @@ def download_asset(name, content_url):
         pathlib.Path('build/outputs').mkdir(parents=True, exist_ok=True)
 
         file = open(f"build/outputs/{name}", "wb+")
-        file.write(base64.b64decode(response.content))
+        file.write(response.content)
         file.close()
     else:
         response.raise_for_status()
@@ -62,32 +62,35 @@ def download_asset(name, content_url):
 def main():
     logging.basicConfig(level=logging.DEBUG)
 
-    iam_base_url = os.environ["IAM_BASE_URL"]
-    iam_client_id = os.environ["IAM_CLIENT_ID"]
-    iam_scope = os.environ["IAM_SCOPE"]
-    iam_user_email = os.environ["IAM_USER_EMAIL"]
-    iam_user_password = os.environ["IAM_USER_PASSWORD"]
+    # iam_base_url = os.environ["IAM_BASE_URL"]
+    # iam_client_id = os.environ["IAM_CLIENT_ID"]
+    # iam_scope = os.environ["IAM_SCOPE"]
+    # iam_user_email = os.environ["IAM_USER_EMAIL"]
+    # iam_user_password = os.environ["IAM_USER_PASSWORD"]
 
-    token = authenticate_iam(
-        iam_base_url,
-        iam_client_id,
-        iam_scope,
-        iam_user_email,
-        iam_user_password
-    )
+    # token = authenticate_iam(
+    #     iam_base_url,
+    #     iam_client_id,
+    #     iam_scope,
+    #     iam_user_email,
+    #     iam_user_password
+    # )
 
-    terra_base_url = os.environ["TERRA_BASE_URL"]
-    miniapp_id = os.environ["MINIAPP_ID"]
-    miniapp_version_id = os.environ["MINIAPP_VERSION_ID"]
-    miniapp_asset_ids = os.environ["MINIAPP_ASSET_IDS"]
+    # terra_base_url = os.environ["TERRA_BASE_URL"]
+    # miniapp_id = os.environ["MINIAPP_ID"]
+    # miniapp_version_id = os.environ["MINIAPP_VERSION_ID"]
+    # miniapp_asset_ids = os.environ["MINIAPP_ASSET_IDS"]
 
-    fetch_artifact_info(
-        terra_base_url,
-        miniapp_id,
-        miniapp_version_id,
-        miniapp_asset_ids,
-        token
-    )
+    # fetch_artifact_info(
+    #     terra_base_url,
+    #     miniapp_id,
+    #     miniapp_version_id,
+    #     miniapp_asset_ids,
+    #     token
+    # )
+
+    download_asset('CallAppSDK', 'https://github.com/tungnx-teko/terra-external-packages-ios/releases/download/CallAppSDK/CallAppSDK.framework.zip')
+    download_asset('call-app-sdk', 'https://github.com/tungnx-teko/terra-external-packages-ios/releases/download/CallAppSDK/call-app-sdk.json')
 
 
 if __name__ == "__main__":
