@@ -97,7 +97,7 @@ jobs:
         run: ls -R
 
       - name: Generate podspec
-        run: python main/buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk.json
+        run: python main/buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk
 
       - name: Publish pod
         uses: EndBug/add-and-commit@v5
