@@ -51,14 +51,18 @@ jobs:
         id: current-date
         run: echo "::set-output name=now::$(date +'%Y.%m.%dT%H.%M.%S')"
 
+      - name: Set release_tag_name
+        id: release_tag_name
+        run: echo "::set-env name=RELEASE_TAG_NAME::${{ steps.current-date.outputs.now }}"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.current-date.outputs.now }}
-          release_name: Release ${{ steps.current-date.outputs.now }}
+          tag_name: $RELEASE_TAG_NAME
+          release_name: Release $RELEASE_TAG_NAME
           draft: false
           prerelease: false
 
@@ -84,7 +88,7 @@ jobs:
             }
 
       - name: Generate podspec
-        run: python buildSystem/scripts/generate_podspec.py '${{ steps.create_release.outputs.tag_name }}'
+        run: python buildSystem/scripts/generate_podspec.py '${{ steps.create_release.tag_name }}'
 
       - name: Publish podspec
         uses: EndBug/add-and-commit@v5
