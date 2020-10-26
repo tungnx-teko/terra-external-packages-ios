@@ -90,7 +90,7 @@ jobs:
         run: ls -R
 
       - name: Generate podspec
-        run: python buildSystem/scripts/generate_podspec.py ${{ steps.create_release.outputs.tag_name }}
+        run: python buildSystem/scripts/generate_podspec.py '${{ steps.create_release.outputs.tag_name }}'
 
       - name: Publish podspec
         uses: EndBug/add-and-commit@v5
