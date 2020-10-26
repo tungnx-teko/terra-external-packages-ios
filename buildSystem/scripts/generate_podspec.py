@@ -22,12 +22,14 @@ def decode_pod(object):
     return Pod(object['id'], object['name'], object['version'], dependencies)
 
 def parse_json(file_path, release_tag_name):
+    print("parse_json: " + release_tag_name)
     with open(file_path) as f:
         data = json.load(f)
     pod = decode_pod(data)
     generate_podspec(pod, release_tag_name)
 
 def generate_podspec(pod, release_tag_name):
+    print("generate_podspec: " + release_tag_name)
     podspec_string  = 'Pod::Spec.new do |s|\n'
     podspec_string  = fill_pod_data(podspec_string, pod, release_tag_name)
     podspec_string  = fill_author_data(podspec_string, pod)
@@ -36,6 +38,7 @@ def generate_podspec(pod, release_tag_name):
     save(podspec_string, pod)
 
 def fill_pod_data(podspec_string, pod, release_tag_name):
+    print("fill_pod_data: " + release_tag_name)
     podspec_string += "\ts.name                   = '" + pod.id + "'\n"
     podspec_string += "\ts.version                = '" + pod.version + "'\n"
     podspec_string += "\ts.summary                = '" + pod.name + "'\n"
@@ -75,7 +78,7 @@ def save(podspec_string, pod):
 
 if __name__ == "__main__":
     release_tag_name = sys.argv[1]
-
+    print(release_tag_name)
     for file in os.listdir('./build/outputs'):
         if file.endswith(".json"):
             parse_json(os.path.join('./build/outputs', file), release_tag_name)
