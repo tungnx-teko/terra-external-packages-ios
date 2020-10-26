@@ -35,12 +35,6 @@ jobs:
         with:
           path: main
 
-      - name: Checkout Specs project
-        uses: actions/checkout@v2
-        with:
-          repository: teko-vn/Specs-ios
-          path: Specs-ios
-
       - name: Setup Python 3
         uses: actions/setup-python@v2
         with:
@@ -99,7 +93,7 @@ jobs:
       - name: Generate podspec
         run: python main/buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk
 
-      - name: Publish pod
+      - name: Publish podspec
         uses: EndBug/add-and-commit@v5
         with:
           message: ''
