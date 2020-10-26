@@ -83,12 +83,6 @@ jobs:
               });
             }
 
-      - name: Print
-        run: pwd
-
-      - name: Print
-        run: ls -R
-
       - name: Generate podspec
         run: python buildSystem/scripts/generate_podspec.py '${{ steps.create_release.outputs.tag_name }}'
 

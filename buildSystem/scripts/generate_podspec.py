@@ -21,28 +21,28 @@ def decode_pod(object):
     dependencies = map(lambda dict: decode_dependency(dict), object['dependencies'])
     return Pod(object['id'], object['name'], object['version'], dependencies)
 
-def parse_json(file_path):
+def parse_json(file_path, release_tag_name):
     with open(file_path) as f:
         data = json.load(f)
     pod = decode_pod(data)
-    generate_podspec(pod)
+    generate_podspec(pod, release_tag_name)
 
-def generate_podspec(pod):
+def generate_podspec(pod, release_tag_name):
     podspec_string  = 'Pod::Spec.new do |s|\n'
-    podspec_string  = fill_pod_data(podspec_string, pod)
+    podspec_string  = fill_pod_data(podspec_string, pod, release_tag_name)
     podspec_string  = fill_author_data(podspec_string, pod)
     podspec_string  = fill_dependencies_data(podspec_string, pod)
     podspec_string += 'end'
     save(podspec_string, pod)
 
-def fill_pod_data(podspec_string, pod):
+def fill_pod_data(podspec_string, pod, release_tag_name):
     podspec_string += "\ts.name                   = '" + pod.id + "'\n"
     podspec_string += "\ts.version                = '" + pod.version + "'\n"
     podspec_string += "\ts.summary                = '" + pod.name + "'\n"
     podspec_string += "\ts.homepage               = 'https://github.com/teko-vn/Specs-ios.git'\n"
     podspec_string += "\ts.license                = { :type => 'MIT', :file => 'LICENSE' }\n"
     podspec_string += "\n"
-    podspec_string += "\ts.source                 = { :http => 'http://github.com/teko-vn/terra-external-packages-ios/releases/download/" + pod.id + "-v" + pod.version + "/" + pod.name + ".zip' }\n"
+    podspec_string += "\ts.source                 = { :http => 'http://github.com/teko-vn/terra-external-packages-ios/releases/download/" + release_tag_name + "/" + pod.name + ".zip' }\n"
     podspec_string += "\ts.vendored_frameworks    = '" + pod.name + "'\n"
     podspec_string += "\ts.public_header_files    = '" + pod.name + "/Headers/*.h'\n"
     podspec_string += "\ts.source_files           = '" + pod.name + "/Headers/*.{h,m,swift}'\n"
@@ -74,8 +74,9 @@ def save(podspec_string, pod):
     podspec_file.close()
 
 if __name__ == "__main__":
-    print(sys.argv[1])
+    release_tag_name = sys.argv[1]
+
     for file in os.listdir('./build/outputs'):
         if file.endswith(".json"):
-            parse_json(os.path.join('./build/outputs', file))
+            parse_json(os.path.join('./build/outputs', file), release_tag_name)
             
