@@ -96,7 +96,7 @@ jobs:
         with:
           message: ''
           add: '*.podspec --force'
-          cwd: 'Specs-ios'
+          cwd: 'Specs'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
