@@ -70,6 +70,7 @@ jobs:
           script: |
             const fs = require('fs');
             const release_id = '${{ steps.create_release.outputs.id }}';
+            console.log('${{ steps.create_release.outputs }}')
             for (let file of await fs.readdirSync('./build/outputs')) {
               console.log('uploadReleaseAsset', file);
 
@@ -89,7 +90,7 @@ jobs:
         run: ls -R
 
       - name: Generate podspec
-        run: python buildSystem/scripts/generate_podspec.py ${{ steps.create_release.outputs.id }}
+        run: python buildSystem/scripts/generate_podspec.py ${{ steps.create_release.outputs.tag_name }}
 
       - name: Publish podspec
         uses: EndBug/add-and-commit@v5
