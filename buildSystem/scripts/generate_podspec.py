@@ -42,7 +42,7 @@ def fill_pod_data(podspec_string, pod):
     podspec_string += "\ts.homepage               = 'https://github.com/teko-vn/Specs-ios.git'\n"
     podspec_string += "\ts.license                = { :type => 'MIT', :file => 'LICENSE' }\n"
     podspec_string += "\n"
-    podspec_string += "\ts.source                 = { :http => 'http://github.com/teko-vn/Specs-ios/releases/download/" + pod.id + "-v" + pod.version + "/" + pod.name + ".zip' }\n"
+    podspec_string += "\ts.source                 = { :http => 'http://github.com/teko-vn/terra-external-packages-ios/releases/download/" + pod.id + "-v" + pod.version + "/" + pod.name + ".zip' }\n"
     podspec_string += "\ts.vendored_frameworks    = '" + pod.name + "'\n"
     podspec_string += "\ts.public_header_files    = '" + pod.name + "/Headers/*.h'\n"
     podspec_string += "\ts.source_files           = '" + pod.name + "/Headers/*.{h,m,swift}'\n"
@@ -66,7 +66,7 @@ def fill_dependencies_data(podspec_string, pod):
     return podspec_string
 
 def save(podspec_string, pod):
-    folder_path = 'Specs/' + pod.version
+    folder_path = 'Specs/' + pod.name + '/' + pod.version
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
     podspec_file = open(folder_path + '/' + pod.id + ".podspec", "w")
@@ -74,4 +74,8 @@ def save(podspec_string, pod):
     podspec_file.close()
 
 if __name__ == "__main__":
-    parse_json(sys.argv[1])
+    print(sys.argv[1])
+    for file in os.listdir('./build/outputs'):
+        if file.endswith(".json"):
+            parse_json(os.path.join('./build/outputs', file))
+            

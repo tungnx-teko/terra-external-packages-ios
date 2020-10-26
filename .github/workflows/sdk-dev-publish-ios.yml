@@ -89,15 +89,15 @@ jobs:
         run: ls -R
 
       - name: Generate podspec
-        run: python buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk
+        run: python buildSystem/scripts/generate_podspec.py ${{ steps.create_release.outputs.id }}
 
       - name: Publish podspec
         uses: EndBug/add-and-commit@v5
         with:
-          message: ''
+          message: 'Publish podspec'
           add: '*.podspec --force'
           cwd: 'Specs'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-        
+      

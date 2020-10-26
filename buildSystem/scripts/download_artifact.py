@@ -89,8 +89,8 @@ def main():
     #     token
     # )
 
-    download_asset('CallAppSDK', 'https://github.com/tungnx-teko/terra-external-packages-ios/releases/download/CallAppSDK/CallAppSDK.framework.zip')
-    download_asset('call-app-sdk', 'https://github.com/tungnx-teko/terra-external-packages-ios/releases/download/CallAppSDK/call-app-sdk.json')
+    download_asset('CallAppSDK.framework.zip', 'https://github.com/tungnx-teko/terra-external-packages-ios/releases/download/CallAppSDK/CallAppSDK.framework.zip')
+    download_asset('call-app-sdk.json', 'https://github.com/tungnx-teko/terra-external-packages-ios/releases/download/CallAppSDK/call-app-sdk.json')
 
 
 if __name__ == "__main__":
