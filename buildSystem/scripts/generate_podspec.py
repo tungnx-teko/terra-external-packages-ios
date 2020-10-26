@@ -66,7 +66,7 @@ def fill_dependencies_data(podspec_string, pod):
     return podspec_string
 
 def save(podspec_string, pod):
-    folder_path = 'Specs-ios/Specs/' + pod.version
+    folder_path = 'Specs/' + pod.version
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
     podspec_file = open(folder_path + '/' + pod.id + ".podspec", "w")

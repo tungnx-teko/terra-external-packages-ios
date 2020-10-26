@@ -32,8 +32,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          path: main
 
       - name: Setup Python 3
         uses: actions/setup-python@v2
@@ -47,7 +45,7 @@ jobs:
 
       - name: Download artifacts
         run: |
-          python main/buildSystem/scripts/download_artifact.py
+          python buildSystem/scripts/download_artifact.py
 
       - name: Get current date
         id: current-date
@@ -91,7 +89,7 @@ jobs:
         run: ls -R
 
       - name: Generate podspec
-        run: python main/buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk
+        run: python buildSystem/scripts/generate_podspec.py ./build/outputs/call-app-sdk
 
       - name: Publish podspec
         uses: EndBug/add-and-commit@v5
