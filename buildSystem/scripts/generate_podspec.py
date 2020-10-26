@@ -45,7 +45,7 @@ def fill_pod_data(podspec_string, pod, release_tag_name):
     podspec_string += "\ts.homepage               = 'https://github.com/teko-vn/Specs-ios.git'\n"
     podspec_string += "\ts.license                = { :type => 'MIT', :file => 'LICENSE' }\n"
     podspec_string += "\n"
-    podspec_string += "\ts.source                 = { :http => 'http://github.com/teko-vn/terra-external-packages-ios/releases/download/" + release_tag_name + "/" + pod.name + ".zip' }\n"
+    podspec_string += "\ts.source                 = { :http => 'https://github.com/tungnx-teko/terra-external-packages-ios/releases/download/" + release_tag_name + "/" + pod.name + ".zip' }\n"
     podspec_string += "\ts.vendored_frameworks    = '" + pod.name + "'\n"
     podspec_string += "\ts.public_header_files    = '" + pod.name + "/Headers/*.h'\n"
     podspec_string += "\ts.source_files           = '" + pod.name + "/Headers/*.{h,m,swift}'\n"
